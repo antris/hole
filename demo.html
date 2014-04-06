@@ -38,6 +38,10 @@ body {
       hole.create({
         $inputElem: $('<input>').attr('required', 'required'),
         $labelElem: $('<label>').text('Email')
+      }),
+      hole.create({
+        $inputElem: $('<textarea>'),
+        $labelElem: $('<label>').text('Description')
       })
     )
   })

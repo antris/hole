@@ -47,6 +47,7 @@ var hole;
             case 'text':
             case 'tel':
             case 'email':
+            case 'textarea':
             default:
                 return holeTextInput($container, opts);
                 break;
