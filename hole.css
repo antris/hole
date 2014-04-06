@@ -8,13 +8,16 @@
   top: 0;
   left: 0;
   font-size: 13px;
-  color: #63c8ff;
-  transition: opacity 0.3s, top 0.3s;
+  transition: opacity 0.3s, top 0.3s, color 0.3s;
   opacity: 0.9999;
+  color: #aaa;
 }
 .holelib-minilabel-hidden {
   top: 8px;
   opacity: 0;
+}
+.holelib-minilabel-focused {
+  color: #63c8ff;
 }
 .holelib-input {
   margin: 0;

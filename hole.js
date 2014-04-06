@@ -3,21 +3,22 @@ var holeTextInput = function ($container, opts) {
     var $inputElem = opts.$inputElem;
     var $labelElem = opts.$labelElem.addClass('holelib-minilabel');
     var value = Bacon.$.textFieldValue($inputElem);
-    var showMiniLabel = function () {
-        $labelElem.removeClass('holelib-minilabel-hidden');
+    var valueIsEmpty = value.map(function (val) {
+        return val.length == 0;
+    });
+    var focused = $inputElem.focusE().map(true).merge($inputElem.blurE().map(false));
+    var hideMiniLabelEffect = function (fieldIsEmpty) {
+        $labelElem.toggleClass('holelib-minilabel-hidden', fieldIsEmpty);
     };
-    var hideMiniLabel = function () {
-        $labelElem.addClass('holelib-minilabel-hidden');
+    var focusedMiniLabelEffect = function (isFocused) {
+        $labelElem.toggleClass('holelib-minilabel-focused', isFocused);
     };
     var required = $inputElem.prop('required');
     var originalLabelText = $labelElem.text();
     var labelText = required ? originalLabelText : originalLabelText + " (optional)";
 
-    value.map(function (val) {
-        return val.length > 0;
-    }).onValue(function (hasContent) {
-        hasContent ? showMiniLabel() : hideMiniLabel();
-    });
+    focused.onValue(focusedMiniLabelEffect);
+    valueIsEmpty.onValue(hideMiniLabelEffect);
 
     $labelElem.text(labelText);
     $inputElem.attr({ placeholder: labelText });

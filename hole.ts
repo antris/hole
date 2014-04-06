@@ -4,15 +4,20 @@ var holeTextInput = ($container, opts) => {
   var $inputElem = opts.$inputElem
   var $labelElem = opts.$labelElem.addClass('holelib-minilabel')
   var value = Bacon.$.textFieldValue($inputElem)
-  var showMiniLabel = () => { $labelElem.removeClass('holelib-minilabel-hidden') }
-  var hideMiniLabel = () => { $labelElem.addClass('holelib-minilabel-hidden') }
+  var valueIsEmpty = value.map((val) => val.length == 0)
+  var focused = $inputElem.focusE().map(true).merge($inputElem.blurE().map(false))
+  var hideMiniLabelEffect = (fieldIsEmpty) => {
+    $labelElem.toggleClass('holelib-minilabel-hidden', fieldIsEmpty)
+  }
+  var focusedMiniLabelEffect = (isFocused) => {
+    $labelElem.toggleClass('holelib-minilabel-focused', isFocused)
+  }
   var required = $inputElem.prop('required')
   var originalLabelText = $labelElem.text()
   var labelText = required ? originalLabelText : originalLabelText + " (optional)"
 
-  value.map((val) => val.length > 0).onValue((hasContent) => {
-    hasContent ? showMiniLabel() : hideMiniLabel()
-  })
+  focused.onValue(focusedMiniLabelEffect)
+  valueIsEmpty.onValue(hideMiniLabelEffect)
 
   $labelElem.text(labelText)
   $inputElem.attr({placeholder: labelText})
