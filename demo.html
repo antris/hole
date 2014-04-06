@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>hole demo</title>
+<link type="text/css" rel="stylesheet" href="hole.css" />
+</head>
+<body>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="bacon.js"></script>
+<script type="text/javascript" src="bacon.model.js"></script>
+<script type="text/javascript" src="bacon.jquery.js"></script>
+<script type="text/javascript" src="hole.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').append(
+      hole.create({
+        $inputElem: $('<input>').attr('required', 'required'),
+        $labelElem: $('<label>').text('First name')
+      }),
+      hole.create({
+        $inputElem: $('<input>').attr('required', 'required'),
+        $labelElem: $('<label>').text('Last name')
+      }),
+      hole.create({
+        $inputElem: $('<input>'),
+        $labelElem: $('<label>').text('Phone')
+      }),
+      hole.create({
+        $inputElem: $('<input>').attr('required', 'required'),
+        $labelElem: $('<label>').text('Email')
+      })
+    )
+  })
+</script>
+</body>
+</html>

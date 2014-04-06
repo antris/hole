@@ -1,0 +1,32 @@
+.holelib-container {
+  position: relative;
+  font-family: 'Lucida Grande';
+  margin-top: 16px;
+}
+.holelib-minilabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 13px;
+  color: #63c8ff;
+  transition: opacity 0.3s, top 0.3s;
+  opacity: 0.9999;
+}
+.holelib-minilabel-hidden {
+  top: 8px;
+  opacity: 0;
+}
+.holelib-input {
+  margin: 0;
+  padding-top: 16px;
+  line-height: 32px;
+  height: 32px;
+  font-size: 18px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #ccc;
+}
+.holelib-input:focus {
+  outline: none;
+}
