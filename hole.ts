@@ -3,27 +3,36 @@ declare var Bacon: any;
 
 module hole {
 
-  var holeTextInput = ($container, opts) => {
-    var $inputElem = opts.$inputElem
-    var $labelElem = opts.$labelElem.addClass('holelib-minilabel')
-    var value = Bacon.$.textFieldValue($inputElem)
-    var valueIsEmpty = value.map((val) => val.length == 0)
-    var focused = $inputElem.focusE().map(true).merge($inputElem.blurE().map(false))
-    var hideMiniLabelEffect = (fieldIsEmpty) => {
-      $labelElem.toggleClass('holelib-minilabel-hidden', fieldIsEmpty)
-    }
-    var focusedMiniLabelEffect = (isFocused) => {
-      $labelElem.toggleClass('holelib-minilabel-focused', isFocused)
-    }
+  var addOptionalTextToLabel = ($inputElem, $labelElem) => {
     var required = $inputElem.prop('required')
     var originalLabelText = $labelElem.text()
     var labelText = required ? originalLabelText : originalLabelText + " (optional)"
-
-    focused.onValue(focusedMiniLabelEffect)
-    valueIsEmpty.onValue(hideMiniLabelEffect)
-
     $labelElem.text(labelText)
     $inputElem.attr({placeholder: labelText})
+  }
+
+  var addClassToMiniLabelWhenFocused = ($inputElem, $labelElem) => {
+    var isFocused = $inputElem.focusE().map(true).merge($inputElem.blurE().map(false))
+    isFocused.onValue((isFocused) => {
+      $labelElem.toggleClass('holelib-minilabel-focused', isFocused)
+    })
+  }
+
+  var hideMiniLabelWhenValueIsEmpty = ($inputElem, $labelElem) => {
+    var isEmpty = Bacon.$.textFieldValue($inputElem).map((val) => val.length == 0)
+    isEmpty.onValue((fieldIsEmpty) => {
+      $labelElem.toggleClass('holelib-minilabel-hidden', fieldIsEmpty)
+    })
+  }
+
+  var holeTextInput = ($container, opts) => {
+    var $inputElem = opts.$inputElem
+    var $labelElem = opts.$labelElem.addClass('holelib-minilabel')
+
+    addOptionalTextToLabel($inputElem, $labelElem)
+    addClassToMiniLabelWhenFocused($inputElem, $labelElem)
+    hideMiniLabelWhenValueIsEmpty($inputElem, $labelElem)
+
     return $container.append(
       $labelElem,
       $inputElem
